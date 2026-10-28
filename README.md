@@ -8,7 +8,7 @@ API RESTFul para gerenciamento de clientes, integrando manipulacao em banco de d
 - **Persistência:**Spring Data JPA / JPA
 - **Banco de Dados:** MariaDB
 - **Validação:** Bean Validation (Hibernate Validator)
-- **Gerenciador de Dependencias:**Maven
+- **Gerenciador de Dependências:**Maven
 
 ---
 
@@ -25,6 +25,6 @@ API RESTFul para gerenciamento de clientes, integrando manipulacao em banco de d
 ## Regras de validação Aplicadas
 - **Nome:** Obrigatório e deve conter entre 3 e 100 caracteres.
 - **E-mail:** Obrigatório, deve possuir formato válido ('usuario@dominio.com') e ser único no banco de dados.
-- **Telefone:**Obrigatório e deve conter apenas dígitos numéricos validos (com DDD).
+- **Telefone:** Obrigatório e deve conter apenas dígitos numéricos validos (com DDD).
 ---
 

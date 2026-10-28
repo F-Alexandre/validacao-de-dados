@@ -1,0 +1,65 @@
+package com.felipe.api.conrtroller;
+
+import com.felipe.api.model.Cliente;
+import com.felipe.api.repository.ClienteRepository;
+import com.felipe.api.service.ClienteService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
+
+@RestController
+@RequestMapping("/api/clientes")
+public class ClienteController{
+
+  private ClienteService clienteService;
+
+    public ClienteController(ClienteService clienteService){
+        this.clienteService = clienteService;
+    }
+
+
+  @GetMapping
+    public List<Cliente> listarClientes(){
+      return clienteService.listarClientes();
+  }
+
+  @GetMapping("/{id}")
+    public ResponseEntity<Cliente> buscarPorId(@PathVariable Long id){
+        return clienteService.buscarPorId(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+  }
+
+@PostMapping
+    public Cliente criar(@Valid @RequestBody Cliente cliente) {
+         return clienteService.salvar(cliente);
+    }
+
+  @PutMapping("/{id}")
+    public ResponseEntity<?> atualizar(@PathVariable Long id , @Valid @RequestBody Cliente clienteAtualizado){
+        return clienteService.atualizar(id)
+                .map(clienteExistente ->{
+                    clienteExistente.setNome(clienteAtualizado.getNome());
+                    clienteExistente.setEmail(clienteAtualizado.getEmail());
+                    clienteExistente.setTelefone(clienteAtualizado.getTelefone());
+
+                    Cliente atualizado = clienteService.salvar(clienteExistente);
+                    return ResponseEntity.ok(atualizado);
+                }).orElse(ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id){
+        if(!clienteService.deletar(id)){
+            return ResponseEntity.notFound().build();
+        }
+        clienteService.deletar(id);
+        return ResponseEntity.noContent().build();
+
+ }
+}

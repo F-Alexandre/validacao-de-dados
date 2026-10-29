@@ -36,8 +36,13 @@ public class ClienteController {
     }
 
     @PostMapping
-    public Cliente criar(@Valid @RequestBody Cliente cliente) {
-        return clienteService.salvar(cliente);
+    public ResponseEntity<?> criar(@Valid @RequestBody Cliente cliente) {
+       try{
+           Cliente novoCliente = clienteService.salvar(cliente);
+           return  ResponseEntity.status(HttpStatus.CREATED).body(novoCliente);
+       }catch (IllegalArgumentException e ){
+           return  ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("erro" , e.getMessage()));
+       }
     }
 
     @PutMapping("/{id}")

@@ -5,21 +5,21 @@ API RESTFul para gerenciamento de clientes, integrando manipulacao em banco de d
 
 - **Linguagem:** Java 17+
 - **Framework:** Spring Boot
-- **Persistência:**Spring Data JPA / JPA
-- **Banco de Dados:** MariaDB
+- **Persistência:** Spring Data JPA / JPA
+- **Banco de Dados em nuven(Aiven):** A aplicação está configurada para conectar-se a uma instância gerenciada de **MySQL no Aiven Cloud**, utilizando comunicação criptografada via **SSL/TLS**. 
 - **Validação:** Bean Validation (Hibernate Validator)
-- **Gerenciador de Dependências:**Maven
+- **Gerenciador de Dependências:** Maven
 
 ---
 
 ## Funcionalidades & EndPoints
 | Metodos | Endpoint | Descricao |
 | :--- | :--- | :--- |
-| 'GET' | '/api/clientes' | Lista todos os clientes cadastrados |
-| 'GET" | '/api/clientes{id}' | Busca um cliente especifico por ID |
-| 'POST'| '/api/clientes' | Cadastra um novo cliente com validação nos campos |
-| 'PUT' | '/api/clientes/{id}' | Atualiza dados de um cliente existente |
-| 'DELETE' | 'api/clientes/{id}' | Remove um cliente do banco de dados pelo id|
+| GET | /api/clientes | Lista todos os clientes cadastrados |
+| GET | /api/clientes{id} | Busca um cliente especifico por ID |
+| POST| /api/clientes | Cadastra um novo cliente com validação nos campos |
+| PUT | /api/clientes/{id} | Atualiza dados de um cliente existente |
+| DELETE | api/clientes/{id} | Remove um cliente do banco de dados pelo id|
 
 ---
 ## Regras de validação Aplicadas

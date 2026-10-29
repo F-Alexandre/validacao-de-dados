@@ -1,6 +1,8 @@
 package com.felipe.api.conrtroller;
 
 import com.felipe.api.model.Cliente;
+import com.felipe.api.model.dto.ClienteRequestDTO;
+import com.felipe.api.model.dto.ClienteResponseDTO;
 import com.felipe.api.repository.ClienteRepository;
 import com.felipe.api.service.ClienteService;
 import jakarta.validation.Valid;
@@ -24,21 +26,21 @@ public class ClienteController {
 
 
     @GetMapping
-    public List<Cliente> listarClientes() {
+    public List<ClienteResponseDTO> listarClientes() {
         return clienteService.listarClientes();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Cliente> buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<ClienteResponseDTO> buscarPorId(@PathVariable Long id) {
         return clienteService.buscarPorId(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<?> criar(@Valid @RequestBody Cliente cliente) {
+    public ResponseEntity<?> criar(@Valid @RequestBody ClienteRequestDTO clienteRequestDTO) {
        try{
-           Cliente novoCliente = clienteService.salvar(cliente);
+           ClienteResponseDTO novoCliente = clienteService.salvar(clienteRequestDTO);
            return  ResponseEntity.status(HttpStatus.CREATED).body(novoCliente);
        }catch (IllegalArgumentException e ){
            return  ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("erro" , e.getMessage()));
@@ -46,18 +48,10 @@ public class ClienteController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> atualizar(@PathVariable Long id, @Valid @RequestBody Cliente clienteAtualizado) {
+    public ResponseEntity<ClienteResponseDTO> atualizar(@PathVariable Long id, @Valid @RequestBody ClienteRequestDTO clienteAtualizado) {
         return clienteService.atualizar(id, clienteAtualizado)
-                .map(clienteExistente -> {
-                   clienteExistente.setNome(clienteAtualizado.getNome());
-                   clienteExistente.setEmail(clienteAtualizado.getEmail());
-                   clienteExistente.setTelefone(clienteAtualizado.getTelefone());
-
-                   Cliente atualizando = clienteService.salvar(clienteExistente);
-                   return  ResponseEntity.ok(atualizando);
-                }).orElse(ResponseEntity.notFound().build());
-
-
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")

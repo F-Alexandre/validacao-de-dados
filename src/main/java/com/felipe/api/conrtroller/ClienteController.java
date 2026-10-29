@@ -14,43 +14,45 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/clientes")
-public class ClienteController{
+public class ClienteController {
 
-  private ClienteService clienteService;
+    private ClienteService clienteService;
 
-    public ClienteController(ClienteService clienteService){
+    public ClienteController(ClienteService clienteService) {
         this.clienteService = clienteService;
     }
 
 
-  @GetMapping
-    public List<Cliente> listarClientes(){
-      return clienteService.listarClientes();
-  }
+    @GetMapping
+    public List<Cliente> listarClientes() {
+        return clienteService.listarClientes();
+    }
 
-  @GetMapping("/{id}")
-    public ResponseEntity<Cliente> buscarPorId(@PathVariable Long id){
+    @GetMapping("/{id}")
+    public ResponseEntity<Cliente> buscarPorId(@PathVariable Long id) {
         return clienteService.buscarPorId(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
-  }
-
-@PostMapping
-    public Cliente criar(@Valid @RequestBody Cliente cliente) {
-         return clienteService.salvar(cliente);
     }
 
-  @PutMapping("/{id}")
-    public ResponseEntity<?> atualizar(@PathVariable Long id , @Valid @RequestBody Cliente clienteAtualizado){
-        return clienteService.atualizar(id)
-                .map(clienteExistente ->{
-                    clienteExistente.setNome(clienteAtualizado.getNome());
-                    clienteExistente.setEmail(clienteAtualizado.getEmail());
-                    clienteExistente.setTelefone(clienteAtualizado.getTelefone());
+    @PostMapping
+    public Cliente criar(@Valid @RequestBody Cliente cliente) {
+        return clienteService.salvar(cliente);
+    }
 
-                    Cliente atualizado = clienteService.salvar(clienteExistente);
-                    return ResponseEntity.ok(atualizado);
+    @PutMapping("/{id}")
+    public ResponseEntity<?> atualizar(@PathVariable Long id, @Valid @RequestBody Cliente clienteAtualizado) {
+        return clienteService.atualizar(id, clienteAtualizado)
+                .map(clienteExistente -> {
+                   clienteExistente.setNome(clienteAtualizado.getNome());
+                   clienteExistente.setEmail(clienteAtualizado.getEmail());
+                   clienteExistente.setTelefone(clienteAtualizado.getTelefone());
+
+                   Cliente atualizando = clienteService.salvar(clienteExistente);
+                   return  ResponseEntity.ok(atualizando);
                 }).orElse(ResponseEntity.notFound().build());
+
+
     }
 
     @DeleteMapping("/{id}")

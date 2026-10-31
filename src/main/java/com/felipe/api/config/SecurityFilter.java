@@ -47,9 +47,9 @@ public class SecurityFilter extends OncePerRequestFilter {
             if (authHeader != null && authHeader.startsWith("Bearer")) {
                 String token = authHeader.replace("Bearer", "");
                 String email = tokenService.validarToken(token);
-
                 if (email != null) {
                     usuarioRepository.findByEmail(email).ifPresent(usuarios -> {
+                        System.out.println("3" + usuarios.getEmail());
                                 UserDetails userDatails = new User(usuarios.getEmail(), usuarios.getSenha(), Collections.emptyList());
 
                                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDatails, null, userDatails.getAuthorities());

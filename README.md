@@ -5,12 +5,19 @@ API RESTFul para gerenciamento de clientes, integrando manipulacao em banco de d
 
 - **Linguagem:** Java 17+
 - **Framework:** Spring Boot
-- **Persistência:** Spring Data JPA / JPA
+- **Segurança:** Spring Security , JWT (JSON Web Token), BCrypt Password Hashing
+- **Persistência:** Spring Data JPA /Hibernate
 - **Banco de Dados em nuven(Aiven):** A aplicação está configurada para conectar-se a uma instância gerenciada de **MySQL no Aiven Cloud**, utilizando comunicação criptografada via **SSL/TLS**. 
 - **Validação:** Bean Validation (Hibernate Validator)
 - **Gerenciador de Dependências:** Maven
+- **Documentação:** SpringDoc OpenAPI 3 (Swagger UI)
 
 ---
+
+## Arquitetura do Projeto
+O Projeto segue rigorosamente o padrão de arquitetura em camadas para garantir alta testabilidade, baixo acoplamento e separação de responsabilidades:
+
+ 
 
 ## Funcionalidades & EndPoints
 | Metodos | Endpoint | Descricao |
